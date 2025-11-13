@@ -4,6 +4,7 @@ pipeline {
     environment {
         VIRTUAL_ENV = 'venv'
         PATH = "C:\\Users\\iTECH\\AppData\\Local\\Programs\\Python\\Python310;C:\\Users\\iTECH\\AppData\\Local\\Programs\\Python\\Python310\\Scripts;${env.PATH}"
+        PYTHONPATH = "${env.WORKSPACE}"
     }
     
     stages {
@@ -45,7 +46,7 @@ pipeline {
                     echo "Running unit tests..."
                     bat '''
                         call venv\\Scripts\\activate.bat
-                        python -m pytest tests/ -v
+                        pytest tests/ -v
                     '''
                 }
             }
