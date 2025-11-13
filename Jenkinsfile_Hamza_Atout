@@ -19,7 +19,7 @@ pipeline {
                         if not exist venv (
                             python -m venv venv
                         )
-                        call venv\Scripts\activate.bat
+                        call venv\\Scripts\\activate.bat
                         python -m pip install --upgrade pip
                         pip install -r requirements.txt
                     '''
@@ -32,7 +32,7 @@ pipeline {
                 script {
                     echo "Running code linting..."
                     bat '''
-                        call venv\Scripts\activate.bat
+                        call venv\\Scripts\\activate.bat
                         flake8 app.py --max-line-length=100
                     '''
                 }
@@ -44,7 +44,7 @@ pipeline {
                 script {
                     echo "Running unit tests..."
                     bat '''
-                        call venv\Scripts\activate.bat
+                        call venv\\Scripts\\activate.bat
                         pytest tests/ -v
                     '''
                 }
@@ -56,7 +56,7 @@ pipeline {
                 script {
                     echo "Running code coverage analysis..."
                     bat '''
-                        call venv\Scripts\activate.bat
+                        call venv\\Scripts\\activate.bat
                         coverage run -m pytest tests/
                         coverage report -m
                         coverage html
@@ -70,7 +70,7 @@ pipeline {
                 script {
                     echo "Running security scan..."
                     bat '''
-                        call venv\Scripts\activate.bat
+                        call venv\\Scripts\\activate.bat
                         bandit -r . -f txt -o bandit-report.txt || exit 0
                         type bandit-report.txt
                     '''
@@ -83,7 +83,7 @@ pipeline {
                 script {
                     echo "Deploying application..."
                     bat '''
-                        call venv\Scripts\activate.bat
+                        call venv\\Scripts\\activate.bat
                         echo Deployment successful!
                         python app.py
                     '''
