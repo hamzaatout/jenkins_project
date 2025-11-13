@@ -13,7 +13,7 @@ pipeline {
                         bat "python -m venv ${VIRTUAL_ENV}"
                     }
                     bat """
-call ${VIRTUAL_ENV}\Scripts\activate.bat
+call ${VIRTUAL_ENV}\\Scripts\\activate.bat
 pip install -r requirements.txt coverage bandit
 """
                 }
@@ -24,7 +24,7 @@ pip install -r requirements.txt coverage bandit
             steps {
                 script {
                     bat """
-call ${VIRTUAL_ENV}\Scripts\activate.bat
+call ${VIRTUAL_ENV}\\Scripts\\activate.bat
 flake8 app.py
 """
                 }
@@ -35,7 +35,7 @@ flake8 app.py
             steps {
                 script {
                     bat """
-call ${VIRTUAL_ENV}\Scripts\activate.bat
+call ${VIRTUAL_ENV}\\Scripts\\activate.bat
 bandit -r .
 """
                 }
@@ -46,7 +46,7 @@ bandit -r .
             steps {
                 script {
                     bat """
-call ${VIRTUAL_ENV}\Scripts\activate.bat
+call ${VIRTUAL_ENV}\\Scripts\\activate.bat
 coverage run -m pytest
 """
                 }
@@ -57,7 +57,7 @@ coverage run -m pytest
             steps {
                 script {
                     bat """
-call ${VIRTUAL_ENV}\Scripts\activate.bat
+call ${VIRTUAL_ENV}\\Scripts\\activate.bat
 coverage report
 """
                 }
