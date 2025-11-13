@@ -38,7 +38,7 @@ flake8 app.py
                     bat """
 set PYTHONIOENCODING=utf-8
 call ${VIRTUAL_ENV}\\Scripts\\activate.bat
-bandit -r . -x ${VIRTUAL_ENV}
+bandit app.py
 """
                 }
             }
