@@ -9,10 +9,13 @@ pipeline {
         stage('Setup') {
             steps {
                 script {
-                    if (!fileExists("${env.WORKSPACE}/${VIRTUAL_ENV}")) {
-                        sh "python -m venv ${VIRTUAL_ENV}"
+                    if (!fileExists("${VIRTUAL_ENV}/Scripts/activate.bat")) {
+                        bat "python -m venv ${VIRTUAL_ENV}"
                     }
-                    sh "source ${VIRTUAL_ENV}/bin/activate && pip install -r requirements.txt coverage bandit"
+                    bat """
+call ${VIRTUAL_ENV}\Scripts\activate.bat
+pip install -r requirements.txt coverage bandit
+"""
                 }
             }
         }
@@ -20,7 +23,10 @@ pipeline {
         stage('Lint') {
             steps {
                 script {
-                    sh "source ${VIRTUAL_ENV}/bin/activate && flake8 app.py"
+                    bat """
+call ${VIRTUAL_ENV}\Scripts\activate.bat
+flake8 app.py
+"""
                 }
             }
         }
@@ -28,7 +34,10 @@ pipeline {
         stage('Security Scan') {
             steps {
                 script {
-                    sh "source ${VIRTUAL_ENV}/bin/activate && bandit -r ."
+                    bat """
+call ${VIRTUAL_ENV}\Scripts\activate.bat
+bandit -r .
+"""
                 }
             }
         }
@@ -36,7 +45,10 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh "source ${VIRTUAL_ENV}/bin/activate && coverage run -m pytest"
+                    bat """
+call ${VIRTUAL_ENV}\Scripts\activate.bat
+coverage run -m pytest
+"""
                 }
             }
         }
@@ -44,7 +56,10 @@ pipeline {
         stage('Coverage') {
             steps {
                 script {
-                    sh "source ${VIRTUAL_ENV}/bin/activate && coverage report"
+                    bat """
+call ${VIRTUAL_ENV}\Scripts\activate.bat
+coverage report
+"""
                 }
             }
         }
@@ -52,7 +67,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh "bash deploy.sh ${VIRTUAL_ENV}"
+                    bat """
+powershell -NoProfile -ExecutionPolicy Bypass -File deploy.ps1 -VirtualEnv ${VIRTUAL_ENV}
+"""
                     archiveArtifacts artifacts: 'deployment_output.txt', fingerprint: true
                 }
             }
