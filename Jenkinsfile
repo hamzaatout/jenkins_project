@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         VIRTUAL_ENV = 'venv'
+        PYTHONIOENCODING = 'utf-8'
     }
 
     stages {
@@ -35,6 +36,7 @@ flake8 app.py
             steps {
                 script {
                     bat """
+set PYTHONIOENCODING=utf-8
 call ${VIRTUAL_ENV}\\Scripts\\activate.bat
 bandit -r .
 """
